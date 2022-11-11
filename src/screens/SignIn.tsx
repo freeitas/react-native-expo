@@ -42,7 +42,7 @@ export function SignIn() {
 
         <Button title="Log In" />
 
-
+        <Button title="Criar Conta" variant="outline" />
     </VStack>
   );
 }
