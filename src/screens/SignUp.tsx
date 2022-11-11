@@ -41,15 +41,15 @@ export function SignUp() {
 
           />
           <Input 
-            placeholder="Senha" 
+            placeholder="Password" 
             secureTextEntry
           />
 
-          <Button title="Criar e acessar" />
+          <Button title="Create and access" />
         </Center>
 
         <Button 
-          title="Voltar para o login" 
+          title="Back to Login" 
           variant="outline" 
           mt={24}
         />
