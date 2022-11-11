@@ -1,6 +1,9 @@
-import { VStack, Image } from "native-base";
+import { VStack, Image, Text, Center, Heading } from "native-base";
 
+import Dumbbell from '@assets/logo.svg'
 import BackgroundImg from '@assets/background.png';
+
+import { Input } from "@components/Input";
 
 export function SignIn() {
   return (
@@ -11,6 +14,23 @@ export function SignIn() {
         resizeMode="contain"
         position="absolute"
       />
+
+      <Center my={24} >
+        <Dumbbell />
+        <Text color="gray.100" fontSize="sm">
+          Train your mind and your body
+        </Text>
+      </Center>
+
+      <Center>
+        <Heading color="gray.100" fontSize="xl" mb={6} fontFamily="heading">
+          Login
+        </Heading>
+      </Center>
+
+      <Input placeholder="E-mail" />
+      <Input placeholder="Senha" />
+
     </VStack>
   );
 }
