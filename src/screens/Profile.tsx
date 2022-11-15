@@ -14,7 +14,7 @@ import userDefault from '@assets/userPhotoDefault.png';
 const PHOTO_SIZE = 33;
 
 export function Profile() {
-  const [userPhoto, setUserPhoto] = useState(userDefault);
+  const [userPhoto, setUserPhoto] = useState('https://github.com/freeitas.png');
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
 
   const toast = useToast();
