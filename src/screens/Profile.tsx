@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Center, ScrollView, VStack, Skeleton, Text, Heading } from 'native-base';
+import { Center, ScrollView, VStack, Skeleton, Text, Heading, useToast } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserPhoto } from '@components/UserPhoto';
@@ -13,11 +14,44 @@ import userDefault from '@assets/userPhotoDefault.png';
 const PHOTO_SIZE = 33;
 
 export function Profile() {
-
+  const [userPhoto, setUserPhoto] = useState(userDefault);
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
 
+  const toast = useToast();
+
   async function handleUserPhotoSelected(){
-    await ImagePicker.launchImageLibraryAsync();
+    setPhotoIsLoading(true);
+
+    try {
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true,
+      });
+
+      if(photoSelected.cancelled) {
+        return;
+      }
+
+      if(photoSelected.uri) {
+        const photoInfo = await FileSystem.getInfoAsync(photoSelected.uri);
+
+        if(photoInfo.size && (photoInfo.size  / 1024 / 1024 ) > 5){
+          return toast.show({
+            title: 'Essa imagem é muito grande. Escolha uma de até 5MB.',
+            placement: 'top',
+            bgColor: 'red.500'
+          }) 
+        }
+
+        setUserPhoto(photoSelected.uri);
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setPhotoIsLoading(false)
+    }
   }
 
   return (
@@ -37,7 +71,7 @@ export function Profile() {
               />
             :
               <UserPhoto 
-                source={userDefault}
+                source={{ uri: userPhoto} }
                 alt="User photo"
                 size={PHOTO_SIZE}
               />
